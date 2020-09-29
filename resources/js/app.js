@@ -3,10 +3,30 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import Profile from "./components/Profile.vue";
+import Dashboard from "./components/Dashboard.vue";
 
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+
+let routes = [
+    {
+        path: "/dashboard",
+        component: Dashboard
+    },
+    {
+        path: "/profile",
+        component: Profile
+    }
+]
+
+const router = new VueRouter({
+    routes
+})
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,4 +49,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    router
 });
