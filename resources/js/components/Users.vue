@@ -47,22 +47,58 @@
         </div>
         <!-- Modal -->
         <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog center" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add New User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-dialog center" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add New User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" v-model="form.name" name="name"
+                            placeholder="Name and Last Name of User..."
+                            class="form-control" :class="{ 'is-valid': form.errors.has('name') }">
+                        <has-error :form="form" field="name"></has-error>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" v-model="form.email" name="email"
+                            placeholder="Email Address..."
+                            class="form-control" :class="{ 'is-valid': form.errors.has('email') }">
+                        <has-error :form="form" field="email"></has-error>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="bio" id="bio" cols="30"
+                                   rows="10" v-model="form.bio"
+                                   placeholder="Short bio of user (Optional)"
+                                   class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }">
+                        </textarea>
+                        <has-error :form="form" field="bio"></has-error>
+                    </div>
+                    <div class="form-group">
+                        <select name="user_type" v-model="form.user_type"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('user_type') }"
+                                id="user_type">
+                            <option value="">Select User Role</option>
+                            <option value="administrator">Administrator</option>
+                            <option value="user">User</option>
+                            <option value="author">Author</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input v-model="form.password" type="password" name="password" id="password"
+                        class="form-control" :class="{ 'is-invalid': form.errors.has('password') }"
+                         placeholder="Enter Your Strong Password">
+                         <has-error :form="form" field="password"></has-error>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close <i class="fas fa-times"></i></button>
+                    <button type="button" class="btn btn-success">Create User <i class="fas fa-plus"></i> </button>
+                </div>
+                </div>
             </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close <i class="fas fa-times"></i></button>
-                <button type="button" class="btn btn-success">Create User <i class="fas fa-plus"></i> </button>
-            </div>
-            </div>
-        </div>
         </div>
     </div>
 
@@ -70,6 +106,18 @@
 
 <script>
     export default {
+        data() {
+            return {
+                form: new Form({
+                    name: '',
+                    email: '',
+                    password: '',
+                    user_type: '',
+                    bio: '',
+                    photo: ''
+                })
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }
