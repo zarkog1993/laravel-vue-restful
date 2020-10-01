@@ -60,13 +60,13 @@
                         <div class="form-group">
                             <input type="text" v-model="form.name" name="name"
                                 placeholder="Name and Last Name of User..."
-                                class="form-control" :class="{ 'is-valid': form.errors.has('name') }">
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                             <has-error :form="form" field="name"></has-error>
                         </div>
                         <div class="form-group">
                             <input type="email" v-model="form.email" name="email"
                                 placeholder="Email Address..."
-                                class="form-control" :class="{ 'is-valid': form.errors.has('email') }">
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                             <has-error :form="form" field="email"></has-error>
                         </div>
                         <div class="form-group">

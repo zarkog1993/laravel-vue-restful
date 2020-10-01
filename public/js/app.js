@@ -38951,7 +38951,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          class: { "is-valid": _vm.form.errors.has("name") },
+                          class: { "is-invalid": _vm.form.errors.has("name") },
                           attrs: {
                             type: "text",
                             name: "name",
@@ -38989,7 +38989,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          class: { "is-valid": _vm.form.errors.has("email") },
+                          class: { "is-invalid": _vm.form.errors.has("email") },
                           attrs: {
                             type: "email",
                             name: "email",
