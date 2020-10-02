@@ -2164,7 +2164,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$Progress.start();
       this.form.post('api/user').then(function () {
-        Fire.$emit('UserCreated');
+        Fire.$emit('UsersTableChanged');
         $("#addNew").modal('hide'); // $("#addNew").hide();
         // $('body').removeClass('modal-open');
         // $('.modal-backdrop').remove();
@@ -2178,7 +2178,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function () {}); // this.loadUsers();
     },
     deleteUser: function deleteUser(id) {
-      swal({
+      var _this3 = this;
+
+      swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
         icon: "warning",
@@ -2187,17 +2189,23 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: "Yes Delete It!"
       }).then(function (result) {
         if (result.value) {
-          swal("Deleted!", "Your file has been deleted", "success");
+          // Send ajax request
+          _this3.form["delete"]('api/user/' + id).then(function () {
+            swal.fire("Deleted!", "Your file has been deleted", "success");
+            Fire.$emit('UsersTableChanged');
+          })["catch"](function () {
+            swal.fire("Failed", "We Got some errors, Try again later.", "danger");
+          });
         }
       });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadUsers();
-    Fire.$on('UserCreated', function () {
-      _this3.loadUsers();
+    Fire.$on('UsersTableChanged', function () {
+      _this4.loadUsers();
     }); // setInterval(() => {this.loadUsers()}, 3000);
   }
 });
@@ -63850,9 +63858,10 @@ var render = function() {
                       _vm._m(2, true),
                       _vm._v(" "),
                       _c(
-                        "button",
+                        "a",
                         {
                           staticClass: "btn btn-danger",
+                          attrs: { href: "#" },
                           on: {
                             click: function($event) {
                               return _vm.deleteUser(user.id)

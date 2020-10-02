@@ -36,9 +36,9 @@
                         <a href="" class="btn btn-primary">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button @click="deleteUser(user.id)" class="btn btn-danger">
+                        <a href="#" @click="deleteUser(user.id)" class="btn btn-danger">
                             <i class="fas fa-trash"></i>
-                        </button>
+                        </a>
                     </td>
                     </tr>
                   </tbody>
@@ -133,7 +133,7 @@
                 this.$Progress.start();
                 this.form.post('api/user')
                 .then(() => {
-                    Fire.$emit('UserCreated');
+                    Fire.$emit('UsersTableChanged');
                     $("#addNew").modal('hide')
                     // $("#addNew").hide();
                     // $('body').removeClass('modal-open');
@@ -149,7 +149,7 @@
                 // this.loadUsers();
             },
             deleteUser(id) {
-                swal({
+                swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this!",
                     icon: "warning",
@@ -158,18 +158,28 @@
                     confirmButtonText: "Yes Delete It!"
                 }).then((result) => {
                     if(result.value) {
-                        swal(
-                            "Deleted!",
-                            "Your file has been deleted",
-                            "success"
-                        )
+                        // Send ajax request
+                        this.form.delete('api/user/'+id).then(() => {
+                            swal.fire(
+                                "Deleted!",
+                                "Your file has been deleted",
+                                "success"
+                            )
+                            Fire.$emit('UsersTableChanged')
+                        }).catch(() => {
+                            swal.fire(
+                                "Failed",
+                                "We Got some errors, Try again later.",
+                                "danger"
+                            )
+                        });
                     }
                 })
             }
         },
         created() {
             this.loadUsers();
-            Fire.$on('UserCreated', () => {
+            Fire.$on('UsersTableChanged', () => {
                 this.loadUsers()
             });
             // setInterval(() => {this.loadUsers()}, 3000);
