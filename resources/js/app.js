@@ -31,6 +31,18 @@ Vue.use(VueProgressBar, {
     height: '3px'
 });
 
+// Import sweetalert
+import swal from 'sweetalert2';
+window.swal = swal;
+// Register toast for create user
+const toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+window.toast = toast;
+
 
 let routes = [
     {

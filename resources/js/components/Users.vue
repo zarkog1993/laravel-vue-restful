@@ -50,7 +50,7 @@
           </div>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
             <div class="modal-dialog center" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -132,6 +132,13 @@
             createUser() {
                 this.$Progress.start();
                 this.form.post('api/user');
+                $("#addNew").hide();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                toast.fire({
+                    icon: 'success',
+                    title: 'User Created Successfully'
+                });
                 this.$Progress.finish();
             }
         },
