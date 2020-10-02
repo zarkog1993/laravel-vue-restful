@@ -8,6 +8,8 @@ import Dashboard from "./components/Dashboard.vue";
 import Users from "./components/Users.vue";
 import moment from 'moment';
 
+
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -18,8 +20,17 @@ Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 
 import VueRouter from 'vue-router';
-import { values } from "lodash";
 Vue.use(VueRouter);
+
+// Import vue progress bar class from vue-progressbar library
+import VueProgressBar from 'vue-progressbar';
+// Use progress bar in application globally and create style for progressbar
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '3px'
+});
+
 
 let routes = [
     {
