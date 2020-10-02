@@ -2160,20 +2160,45 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createUser: function createUser() {
+      var _this2 = this;
+
       this.$Progress.start();
-      this.form.post('api/user');
-      $("#addNew").hide();
-      $('body').removeClass('modal-open');
-      $('.modal-backdrop').remove();
-      toast.fire({
-        icon: 'success',
-        title: 'User Created Successfully'
+      this.form.post('api/user').then(function () {
+        Fire.$emit('UserCreated');
+        $("#addNew").modal('hide'); // $("#addNew").hide();
+        // $('body').removeClass('modal-open');
+        // $('.modal-backdrop').remove();
+
+        toast.fire({
+          icon: 'success',
+          title: 'User Created Successfully'
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {}); // this.loadUsers();
+    },
+    deleteUser: function deleteUser(id) {
+      swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Yes Delete It!"
+      }).then(function (result) {
+        if (result.value) {
+          swal("Deleted!", "Your file has been deleted", "success");
+        }
       });
-      this.$Progress.finish();
     }
   },
   created: function created() {
+    var _this3 = this;
+
     this.loadUsers();
+    Fire.$on('UserCreated', function () {
+      _this3.loadUsers();
+    }); // setInterval(() => {this.loadUsers()}, 3000);
   }
 });
 
@@ -63821,7 +63846,22 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(user.bio))]),
                     _vm._v(" "),
-                    _vm._m(2, true)
+                    _c("td", [
+                      _vm._m(2, true),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteUser(user.id)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-trash" })]
+                      )
+                    ])
                   ])
                 }),
                 0
@@ -64142,14 +64182,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "btn btn-primary", attrs: { href: "" } }, [
-        _c("i", { staticClass: "fas fa-edit" })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "btn btn-danger", attrs: { href: "" } }, [
-        _c("i", { staticClass: "fas fa-trash" })
-      ])
+    return _c("a", { staticClass: "btn btn-primary", attrs: { href: "" } }, [
+      _c("i", { staticClass: "fas fa-edit" })
     ])
   },
   function() {
@@ -79529,7 +79563,9 @@ Vue.filter('upText', function (text) {
 });
 Vue.filter('dateFilter', function (createdAt) {
   return moment__WEBPACK_IMPORTED_MODULE_3___default()(createdAt).format('MMMM Do YYYY');
-});
+}); // With this piece of code we van crate custome events
+
+window.Fire = new Vue();
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

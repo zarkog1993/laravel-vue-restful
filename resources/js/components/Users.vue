@@ -36,9 +36,9 @@
                         <a href="" class="btn btn-primary">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="" class="btn btn-danger">
+                        <button @click="deleteUser(user.id)" class="btn btn-danger">
                             <i class="fas fa-trash"></i>
-                        </a>
+                        </button>
                     </td>
                     </tr>
                   </tbody>
@@ -131,19 +131,48 @@
             },
             createUser() {
                 this.$Progress.start();
-                this.form.post('api/user');
-                $("#addNew").hide();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                toast.fire({
-                    icon: 'success',
-                    title: 'User Created Successfully'
-                });
-                this.$Progress.finish();
+                this.form.post('api/user')
+                .then(() => {
+                    Fire.$emit('UserCreated');
+                    $("#addNew").modal('hide')
+                    // $("#addNew").hide();
+                    // $('body').removeClass('modal-open');
+                    // $('.modal-backdrop').remove();
+                    toast.fire({
+                        icon: 'success',
+                        title: 'User Created Successfully'
+                    })
+                    this.$Progress.finish();
+                })
+                .catch(() => {})
+
+                // this.loadUsers();
+            },
+            deleteUser(id) {
+                swal({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    confirmButtonText: "Yes Delete It!"
+                }).then((result) => {
+                    if(result.value) {
+                        swal(
+                            "Deleted!",
+                            "Your file has been deleted",
+                            "success"
+                        )
+                    }
+                })
             }
         },
         created() {
             this.loadUsers();
+            Fire.$on('UserCreated', () => {
+                this.loadUsers()
+            });
+            // setInterval(() => {this.loadUsers()}, 3000);
         }
     }
 </script>
