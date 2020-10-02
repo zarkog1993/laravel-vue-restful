@@ -26,20 +26,20 @@
                   </thead>
                   <tbody>
                     <tr v-for="user in users" :key="user.id">
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.type | upText }}</td>
-                    <td>{{ user.created_at | dateFilter }}</td>
-                    <td>{{ user.bio }}</td>
-                    <td>
-                        <button @click="editModal(user)" class="btn btn-primary">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <a href="#" @click="deleteUser(user.id)" class="btn btn-danger">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </td>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.type | upText }}</td>
+                        <td>{{ user.created_at | dateFilter }}</td>
+                        <td>{{ user.bio }}</td>
+                        <td>
+                            <button @click="editModal(user)" class="btn btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <a href="#" @click="deleteUser(user.id)" class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
                     </tr>
                   </tbody>
                 </table>
@@ -54,12 +54,13 @@
             <div class="modal-dialog center" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add New User</h5>
+                        <h5 v-show="editmode" class="modal-title" id="exampleModalLongTitle">Update User</h5>
+                        <h5 v-show="!editmode" class="modal-title" id="exampleModalLongTitle">Add New User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                <form @submit.prevent="createUser">
+                <form @submit.prevent="editmode ? updateUser() : createUser()">
                     <div class="modal-body">
                         <div class="form-group">
                             <input type="text" v-model="form.name" name="name"
@@ -100,7 +101,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close <i class="fas fa-times"></i></button>
-                        <button type="submit" class="btn btn-success">Create User <i class="fas fa-plus"></i> </button>
+                        <button v-show="editmode" type="submit" class="btn btn-success">Update User <i class="fas fa-wrench"></i> </button>
+                        <button v-show="!editmode" type="submit" class="btn btn-primary">Create User <i class="fas fa-plus"></i> </button>
                     </div>
                 </form>
                 </div>
@@ -114,6 +116,7 @@
     export default {
         data() {
             return {
+                editmode: false,
                 users: {},
                 form: new Form({
                     name: '',
@@ -131,11 +134,16 @@
             },
             // Opens add new modal
             newModal() {
+                this.editmode = false
                 this.form.reset();
                 $("#addNew").modal('show')
             },
+            updateUser() {
+                console.log('Editing data');
+            },
             // Opens edit modal with user data
             editModal(user) {
+                this.editmode = true
                 this.form.reset();
                 $("#addNew").modal('show')
                 this.form.fill(user);
