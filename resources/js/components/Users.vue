@@ -7,7 +7,7 @@
                 <h3 class="card-title">Users Managment</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add New User <i class="fas fa-user-plus"></i></button>
+                    <button class="btn btn-success" @click="newModal">Add New User <i class="fas fa-user-plus"></i></button>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -33,9 +33,9 @@
                     <td>{{ user.created_at | dateFilter }}</td>
                     <td>{{ user.bio }}</td>
                     <td>
-                        <a href="" class="btn btn-primary">
+                        <button @click="editModal(user)" class="btn btn-primary">
                             <i class="fas fa-edit"></i>
-                        </a>
+                        </button>
                         <a href="#" @click="deleteUser(user.id)" class="btn btn-danger">
                             <i class="fas fa-trash"></i>
                         </a>
@@ -129,6 +129,18 @@
             loadUsers() {
                 axios.get("api/user").then(({ data }) => (this.users = data.data));
             },
+            // Opens add new modal
+            newModal() {
+                this.form.reset();
+                $("#addNew").modal('show')
+            },
+            // Opens edit modal with user data
+            editModal(user) {
+                this.form.reset();
+                $("#addNew").modal('show')
+                this.form.fill(user);
+            },
+            // Create user mehod
             createUser() {
                 this.$Progress.start();
                 this.form.post('api/user')
@@ -148,6 +160,7 @@
 
                 // this.loadUsers();
             },
+            // Delete users method with confirmation modal
             deleteUser(id) {
                 swal.fire({
                     title: "Are you sure?",
