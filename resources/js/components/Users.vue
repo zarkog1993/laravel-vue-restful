@@ -29,8 +29,8 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.type }}</td>
-                    <td>{{ user.created_at | date }}</td>
+                    <td>{{ user.type | upText }}</td>
+                    <td>{{ user.created_at | dateFilter }}</td>
                     <td>{{ user.bio }}</td>
                     <td>
                         <a href="" class="btn btn-primary">

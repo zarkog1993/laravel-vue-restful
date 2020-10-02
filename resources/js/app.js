@@ -6,6 +6,7 @@
 import Profile from "./components/Profile.vue";
 import Dashboard from "./components/Dashboard.vue";
 import Users from "./components/Users.vue";
+import moment from 'moment';
 
 require('./bootstrap');
 
@@ -17,6 +18,7 @@ Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 
 import VueRouter from 'vue-router';
+import { values } from "lodash";
 Vue.use(VueRouter);
 
 let routes = [
@@ -38,6 +40,14 @@ const router = new VueRouter({
     mode: "history",
     routes
 })
+
+Vue.filter('upText', function(text){
+    return text.charAt(0).toUpperCase() + text.slice(1);
+});
+
+Vue.filter('dateFilter', function(createdAt) {
+    return moment(createdAt).format('MMMM Do YYYY');
+});
 
 /**
  * The following block of code may be used to automatically register your
