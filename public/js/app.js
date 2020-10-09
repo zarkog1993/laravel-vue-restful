@@ -63961,7 +63961,7 @@ var render = function() {
                     staticClass: "modal-title",
                     attrs: { id: "exampleModalLongTitle" }
                   },
-                  [_vm._v("Update User")]
+                  [_vm._v("Edit User")]
                 ),
                 _vm._v(" "),
                 _c(

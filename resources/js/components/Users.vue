@@ -54,7 +54,7 @@
             <div class="modal-dialog center" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 v-show="editmode" class="modal-title" id="exampleModalLongTitle">Update User</h5>
+                        <h5 v-show="editmode" class="modal-title" id="exampleModalLongTitle">Edit User</h5>
                         <h5 v-show="!editmode" class="modal-title" id="exampleModalLongTitle">Add New User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
