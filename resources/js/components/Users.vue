@@ -83,9 +83,9 @@
                             <has-error :form="form" field="bio"></has-error>
                         </div>
                         <div class="form-group">
-                            <select name="user_type" v-model="form.user_type"
-                                    class="form-control" :class="{ 'is-invalid': form.errors.has('user_type') }"
-                                    id="user_type">
+                            <select name="type" v-model="form.type"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('type') }"
+                                    id="type">
                                 <option value="">Select User Role</option>
                                 <option value="administrator">Administrator</option>
                                 <option value="user">User</option>
@@ -123,7 +123,7 @@
                     name: '',
                     email: '',
                     password: '',
-                    user_type: '',
+                    type: '',
                     bio: '',
                     photo: ''
                 })

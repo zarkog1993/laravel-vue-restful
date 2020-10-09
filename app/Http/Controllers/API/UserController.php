@@ -73,6 +73,12 @@ class UserController extends Controller
         //
     }
 
+
+    public function profile()
+    {
+        return auth('api')->user();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
