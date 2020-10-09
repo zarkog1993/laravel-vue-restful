@@ -2144,6 +2144,7 @@ __webpack_require__.r(__webpack_exports__);
       editmode: false,
       users: {},
       form: new Form({
+        id: '',
         name: '',
         email: '',
         password: '',
@@ -2169,7 +2170,19 @@ __webpack_require__.r(__webpack_exports__);
       $("#addNew").modal('show');
     },
     updateUser: function updateUser() {
-      console.log('Editing data');
+      var _this2 = this;
+
+      this.form.put('api/user/' + this.form.id).then(function () {
+        // success
+        $("#addNew").modal('hide');
+        swal.fire("Updated!", "Your file has been deleted", "success");
+
+        _this2.$Progress.finish();
+
+        Fire.$emit('UsersTableChanged');
+      })["catch"](function () {
+        _this2.$Progress.fail();
+      });
     },
     // Opens edit modal with user data
     editModal: function editModal(user) {
@@ -2180,7 +2193,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Create user mehod
     createUser: function createUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start();
       this.form.post('api/user').then(function () {
@@ -2194,12 +2207,12 @@ __webpack_require__.r(__webpack_exports__);
           title: 'User Created Successfully'
         });
 
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
       })["catch"](function () {}); // this.loadUsers();
     },
     // Delete users method with confirmation modal
     deleteUser: function deleteUser(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       swal.fire({
         title: "Are you sure?",
@@ -2211,7 +2224,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           // Send ajax request
-          _this3.form["delete"]('api/user/' + id).then(function () {
+          _this4.form["delete"]('api/user/' + id).then(function () {
             swal.fire("Deleted!", "Your file has been deleted", "success");
             Fire.$emit('UsersTableChanged');
           })["catch"](function () {
@@ -2222,11 +2235,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadUsers();
     Fire.$on('UsersTableChanged', function () {
-      _this4.loadUsers();
+      _this5.loadUsers();
     }); // setInterval(() => {this.loadUsers()}, 3000);
   }
 });

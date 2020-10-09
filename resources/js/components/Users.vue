@@ -119,6 +119,7 @@
                 editmode: false,
                 users: {},
                 form: new Form({
+                    id: '',
                     name: '',
                     email: '',
                     password: '',
@@ -139,7 +140,21 @@
                 $("#addNew").modal('show')
             },
             updateUser() {
-                console.log('Editing data');
+                this.form.put('api/user/'+this.form.id)
+                    .then(() => {
+                        // success
+                        $("#addNew").modal('hide')
+                        swal.fire(
+                            "Updated!",
+                            "Your file has been deleted",
+                            "success"
+                        )
+                        this.$Progress.finish();
+                        Fire.$emit('UsersTableChanged')
+                    })
+                    .catch(() => {
+                        this.$Progress.fail();
+                    });
             },
             // Opens edit modal with user data
             editModal(user) {
