@@ -233,19 +233,32 @@ export default {
     },
     methods: {
         updateInfo() {
+            this.$Progress.start();
             this.form.put('api/profile')
-                .then(() => {})
-                .catch()
+                .then(() => {
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+                    this.$Progress.fail();
+                })
         },
         // Method for upload file on server
         // We connect it with input file with @change
         updateProfile(e) {
             let file = e.target.files[0];
             let reader = new FileReader();
-            reader.onloadend = (file) => {
-                this.form.photo = reader.result;
+            if(file['size'] < 2111775) {
+                reader.onloadend = (file) => {
+                    this.form.photo = reader.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                swal.fire({
+                    title: 'Ooops...',
+                    text: 'File too big, you need to upload file less than 2MB \n Please try anoteh one.',
+                    icon: 'error'
+                })
             }
-            reader.readAsDataURL(file);
         }
     },
     created() {
