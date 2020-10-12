@@ -15,7 +15,7 @@
                         </h5>
                     </div>
                     <div class="widget-user-image">
-                        <img class="img-circle" src="" alt="User Avatar" />
+                        <img class="img-circle" :src="'/img/profile/'+form.photo" alt="User Avatar" />
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -151,7 +151,8 @@
                                                 <div class="form-group row">
                                                     <label for="password" class="col-sm-2 col-form-label">Password</label>
                                                     <div class="col-sm-10">
-                                                        <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+                                                        <input class="form-control" type="password" name="password" id="password"
+                                                                                    placeholder="Password" v-model="form.password">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
