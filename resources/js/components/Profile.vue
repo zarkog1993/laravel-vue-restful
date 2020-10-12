@@ -15,7 +15,7 @@
                         </h5>
                     </div>
                     <div class="widget-user-image">
-                        <img class="img-circle" :src="'/img/profile/'+form.photo" alt="User Avatar" />
+                        <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar" />
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -104,7 +104,9 @@
                                                             id="name"
                                                             placeholder="Name"
                                                             v-model="form.name"
+                                                            :class="{ 'is-invalid': form.errors.has('name') }"
                                                         />
+                                                        <has-error :form="form" field="name"></has-error>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -120,7 +122,9 @@
                                                             id="email"
                                                             placeholder="Email"
                                                             v-model="form.email"
+                                                            :class="{ 'is-invalid': form.errors.has('email') }"
                                                         />
+                                                        <has-error :form="form" field="email"></has-error>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -151,8 +155,11 @@
                                                 <div class="form-group row">
                                                     <label for="password" class="col-sm-2 col-form-label">Password</label>
                                                     <div class="col-sm-10">
-                                                        <input class="form-control" type="password" name="password" id="password"
-                                                                                    placeholder="Password" v-model="form.password">
+                                                        <input class="form-control" type="password"
+                                                               name="password" id="password" placeholder="Password"
+                                                               :class="{ 'is-invalid': form.errors.has('password') }"
+                                                               v-model="form.password">
+                                                        <has-error :form="form" field="password"></has-error>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -187,17 +194,11 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <!-- /.tab-pane -->
                                     </div>
-                                    <!-- /.tab-content -->
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.nav-tabs-custom -->
                         </div>
-                        <!-- /.col -->
                     </div>
-                    <!-- /.row -->
                 </div>
             </div>
         </div>
@@ -260,6 +261,9 @@ export default {
                     icon: 'error'
                 })
             }
+        },
+        getProfilePhoto() {
+            return "img/profile/" + this.form.photo
         }
     },
     created() {
