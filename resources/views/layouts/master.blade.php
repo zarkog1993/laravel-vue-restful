@@ -59,7 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="./img/profile.png" class="img-circle elevation-2" alt="User Image">
+                            <img src="./img/profile/{{ auth()->user()->photo }}" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
                             <a href="#" class="d-block">{{ auth()->user()->name }}</a>
@@ -106,14 +106,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </p>
                                 </router-link>
                             </li>
-                            <li class="nav-item">
-                                <router-link to="/developer" class="nav-link">
-                                    <i class="nav-icon fas fa-cogs"></i>
-                                    <p>
-                                        Developer
-                                    </p>
-                                </router-link>
-                            </li>
+                            @can('isAdmin')
+                                <li class="nav-item">
+                                    <router-link to="/developer" class="nav-link">
+                                        <i class="nav-icon fas fa-cogs"></i>
+                                        <p>
+                                            Developer
+                                        </p>
+                                    </router-link>
+                                </li>
+                            @endcan
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
