@@ -6,13 +6,12 @@
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div
                         class="widget-user-header text-white"
-                        style="background-image: url('./img/user-background.jpg')"
-                    >
+                        style="background-image: url('./img/user-background.jpg')">
                         <h3 class="widget-user-username text-right">
-                            Elizabeth Pierce
+                            {{ form.name }}
                         </h3>
                         <h5 class="widget-user-desc text-right">
-                            Web Designer
+                            {{ form.email }}
                         </h5>
                     </div>
                     <div class="widget-user-image">
@@ -146,7 +145,7 @@
                                                         >Image
                                                     </label>
                                                     <div class="col-sm-10">
-                                                        <input type="file" class="form-control-file" id="customFile">
+                                                        <input type="file" @change="updateProfile" class="form-control-file" id="customFile">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -175,12 +174,11 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div
-                                                        class="offset-sm-2 col-sm-10"
-                                                    >
+                                                        class="offset-sm-2 col-sm-10">
                                                         <button
                                                             type="submit"
                                                             class="btn btn-success"
-                                                        >
+                                                            @click.prevent="updateInfo">
                                                             <i class="fas fa-sync-alt"></i>
                                                             Update
                                                         </button>
@@ -225,12 +223,30 @@ export default {
                 password: '',
                 user_type: '',
                 bio: '',
+                type: '',
                 photo: ''
             })
         }
     },
     mounted() {
         console.log("Component mounted.");
+    },
+    methods: {
+        updateInfo() {
+            this.form.put('api/profile')
+                .then(() => {})
+                .catch()
+        },
+        // Method for upload file on server
+        // We connect it with input file with @change
+        updateProfile(e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onloadend = (file) => {
+                this.form.photo = reader.result;
+            }
+            reader.readAsDataURL(file);
+        }
     },
     created() {
         axios.get("api/profile")

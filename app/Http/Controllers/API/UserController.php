@@ -53,12 +53,12 @@ class UserController extends Controller
             $photo = $request['photo'];
         }
         return User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'type' => $request['user_type'],
-            'bio' => $request['bio'],
+            'name' => $request->name,
+            'email' => $request->email,
+            'type' => $request->user_type,
+            'bio' => $request->bio,
             'photo' => $photo,
-            'password' => Hash::make($request['password'])
+            'password' => Hash::make($request->password)
         ]);
     }
 
@@ -74,9 +74,27 @@ class UserController extends Controller
     }
 
 
+    /**
+     * get Profile method
+     *
+     * @return void
+     */
     public function profile()
     {
         return auth('api')->user();
+    }
+
+    /**
+     * Update profile with upload image
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = auth('api')->user();
+        return $request->photo;
+        // return ['message' => 'Success'];
     }
 
     /**
